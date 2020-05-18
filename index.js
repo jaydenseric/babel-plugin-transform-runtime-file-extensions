@@ -1,15 +1,20 @@
 'use strict';
 
 /**
- * Checks if a specifier is an extensionless Babel runtime specifier.
+ * Checks if a specifier is an extensionless Babel runtime specifier. If so,
+ * adds the extension.
  * @param {string} specifier Specifier to check.
  * @returns {boolean} Is the specifier an extensionless Babel runtime specifier.
  */
-function isExtensionlessBabelRuntimeSpecifier(specifier) {
-  return (
-    specifier.startsWith('@babel/runtime/helpers/') &&
-    !specifier.endsWith('.js')
-  );
+function transform(specifier) {
+  if (
+    specifier.value.startsWith('@babel/runtime/helpers/') &&
+    !specifier.value.endsWith('.js')
+  ) {
+    specifier.value = `${specifier.value}.js`;
+  } else if (specifier.value === '@babel/runtime/regenerator') {
+    specifier.value = `${specifier.value}/index.js`;
+  }
 }
 
 /**
@@ -27,11 +32,9 @@ module.exports = function babelPluginTransformRuntimeFileExtensions() {
       // Example ExportNamedDeclaration (unlikely to occur):
       //   export { default as _objectWithoutPropertiesLoose } from "@babel/runtime/helpers/objectWithoutPropertiesLoose";
       'ImportDeclaration|ExportNamedDeclaration'(path) {
-        if (
-          path.node.source &&
-          isExtensionlessBabelRuntimeSpecifier(path.node.source.value)
-        )
-          path.node.source.value = `${path.node.source.value}.js`;
+        if (path.node.source) {
+          transform(path.node.source);
+        }
       },
 
       // Example CallExpression:
@@ -39,12 +42,9 @@ module.exports = function babelPluginTransformRuntimeFileExtensions() {
       CallExpression(path) {
         if (path.node.callee.name === 'require') {
           const [specifier] = path.node.arguments;
-          if (
-            specifier &&
-            specifier.type === 'StringLiteral' &&
-            isExtensionlessBabelRuntimeSpecifier(specifier.value)
-          )
-            specifier.value = `${specifier.value}.js`;
+          if (specifier && specifier.type === 'StringLiteral') {
+            transform(specifier);
+          }
         }
       },
     },
