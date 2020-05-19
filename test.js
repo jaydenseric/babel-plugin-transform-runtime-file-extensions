@@ -27,6 +27,26 @@ tests.add('Import from Babel runtime, with extension.', () => {
   );
 });
 
+tests.add('Import from Babel runtime regenerator, no extension.', () => {
+  strictEqual(
+    babel.transform(
+      'import _regeneratorRuntime from "@babel/runtime/regenerator";',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'import _regeneratorRuntime from "@babel/runtime/regenerator/index.js";'
+  );
+});
+
+tests.add('Import from Babel runtime regenerator, with extension.', () => {
+  strictEqual(
+    babel.transform(
+      'import _regeneratorRuntime from "@babel/runtime/regenerator/index.js";',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'import _regeneratorRuntime from "@babel/runtime/regenerator/index.js";'
+  );
+});
+
 tests.add('Import not from Babel runtime.', () => {
   strictEqual(
     babel.transform('import a from "a";', {
@@ -56,6 +76,26 @@ tests.add('Export from Babel runtime, with extension.', () => {
   );
 });
 
+tests.add('Export from Babel runtime regenerator, no extension.', () => {
+  strictEqual(
+    babel.transform(
+      'export { default as _regeneratorRuntime } from "@babel/runtime/regenerator";',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'export { default as _regeneratorRuntime } from "@babel/runtime/regenerator/index.js";'
+  );
+});
+
+tests.add('Export from Babel runtime regenerator, with extension.', () => {
+  strictEqual(
+    babel.transform(
+      'export { default as _regeneratorRuntime } from "@babel/runtime/regenerator/index.js";',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'export { default as _regeneratorRuntime } from "@babel/runtime/regenerator/index.js";'
+  );
+});
+
 tests.add('Export not from Babel runtime.', () => {
   strictEqual(
     babel.transform('export { default as a } from "a";', {
@@ -82,6 +122,24 @@ tests.add('Require from Babel runtime, with extension.', () => {
       { plugins: [babelPluginTransformRuntimeFileExtensions] }
     ).code,
     'require("@babel/runtime/helpers/objectWithoutPropertiesLoose.js");'
+  );
+});
+
+tests.add('Require from Babel runtime regenerator, no extension.', () => {
+  strictEqual(
+    babel.transform('require("@babel/runtime/regenerator");', {
+      plugins: [babelPluginTransformRuntimeFileExtensions],
+    }).code,
+    'require("@babel/runtime/regenerator/index.js");'
+  );
+});
+
+tests.add('Require from Babel runtime regenerator, with extension.', () => {
+  strictEqual(
+    babel.transform('require("@babel/runtime/regenerator/index.js");', {
+      plugins: [babelPluginTransformRuntimeFileExtensions],
+    }).code,
+    'require("@babel/runtime/regenerator/index.js");'
   );
 });
 
