@@ -21,7 +21,3 @@ Configure Babel to use the plugin, after [`@babel/plugin-transform-runtime`](htt
   "plugins": ["@babel/transform-runtime", "transform-runtime-file-extensions"]
 }
 ```
-
-## Support
-
-- Node.js v10+
