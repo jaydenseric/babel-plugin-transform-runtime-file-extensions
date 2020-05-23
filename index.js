@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * Checks if a specifier is an extensionless Babel runtime specifier. If so,
- * adds the extension.
- * @param {string} specifier Specifier to check.
+ * Ensures a require or import string literal specifier has a file extension if
+ * it’s for the Babel runtime.
+ * @param {{value: string}} specifier Require or import string literal specifier.
  */
-function transform(specifier) {
+function fixBabelRuntimeSpecifier(specifier) {
   if (
     specifier.value.startsWith('@babel/runtime/helpers/') &&
     !specifier.value.endsWith('.js')
@@ -30,7 +30,7 @@ module.exports = function babelPluginTransformRuntimeFileExtensions() {
       // Example ExportNamedDeclaration (unlikely to occur):
       //   export { default as _objectWithoutPropertiesLoose } from "@babel/runtime/helpers/objectWithoutPropertiesLoose";
       'ImportDeclaration|ExportNamedDeclaration'(path) {
-        if (path.node.source) transform(path.node.source);
+        if (path.node.source) fixBabelRuntimeSpecifier(path.node.source);
       },
 
       // Example CallExpression:
@@ -39,7 +39,7 @@ module.exports = function babelPluginTransformRuntimeFileExtensions() {
         if (path.node.callee.name === 'require') {
           const [specifier] = path.node.arguments;
           if (specifier && specifier.type === 'StringLiteral')
-            transform(specifier);
+            fixBabelRuntimeSpecifier(specifier);
         }
       },
     },
