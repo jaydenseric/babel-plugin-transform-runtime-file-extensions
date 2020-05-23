@@ -1,6 +1,6 @@
 # babel-plugin-transform-runtime-file-extensions changelog
 
-## Next
+## 2.0.0
 
 ### Major
 

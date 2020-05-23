@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-runtime-file-extensions",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A Babel plugin that adds file extensions to Babel runtime import specifiers and require paths for Node.js ESM compatibility.",
   "license": "MIT",
   "author": {
