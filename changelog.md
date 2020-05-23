@@ -11,6 +11,7 @@
 
 - Also run GitHub Actions with Node.js v14.
 - Transform `@babel/runtime/regenerator` require or import specifiers to `@babel/runtime/regenerator/index.js`, via [#1](https://github.com/jaydenseric/babel-plugin-transform-runtime-file-extensions/pull/1).
+- Added more tests.
 
 ## 1.0.0
 

@@ -56,6 +56,30 @@ tests.add('Import not from Babel runtime.', () => {
   );
 });
 
+tests.add(
+  'Import expression not from Babel runtime, string literal specifier.',
+  () => {
+    strictEqual(
+      babel.transform('import("a");', {
+        plugins: [babelPluginTransformRuntimeFileExtensions],
+      }).code,
+      'import("a");'
+    );
+  }
+);
+
+tests.add(
+  'Import expression not from Babel runtime, non string literal specifier.',
+  () => {
+    strictEqual(
+      babel.transform('import(`a`);', {
+        plugins: [babelPluginTransformRuntimeFileExtensions],
+      }).code,
+      'import(`a`);'
+    );
+  }
+);
+
 tests.add('Export from Babel runtime, no extension.', () => {
   strictEqual(
     babel.transform(
@@ -143,7 +167,7 @@ tests.add('Require from Babel runtime regenerator, with extension.', () => {
   );
 });
 
-tests.add('Require not from Babel runtime.', () => {
+tests.add('Require not from Babel runtime, string literal specifier.', () => {
   strictEqual(
     babel.transform('require("a");', {
       plugins: [babelPluginTransformRuntimeFileExtensions],
@@ -151,5 +175,17 @@ tests.add('Require not from Babel runtime.', () => {
     'require("a");'
   );
 });
+
+tests.add(
+  'Require not from Babel runtime, non string literal specifier.',
+  () => {
+    strictEqual(
+      babel.transform('require(`a`);', {
+        plugins: [babelPluginTransformRuntimeFileExtensions],
+      }).code,
+      'require(`a`);'
+    );
+  }
+);
 
 tests.run();
