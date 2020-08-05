@@ -27,6 +27,26 @@ tests.add('Import from Babel runtime, with extension.', () => {
   );
 });
 
+tests.add('Import from Babel runtime core-js, no extension.', () => {
+  strictEqual(
+    babel.transform(
+      'import _Promise from "@babel/runtime-corejs3/core-js-stable/promise";',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'import _Promise from "@babel/runtime-corejs3/core-js-stable/promise.js";'
+  );
+});
+
+tests.add('Import from Babel runtime core-js, with extension.', () => {
+  strictEqual(
+    babel.transform(
+      'import _Promise from "@babel/runtime-corejs3/core-js-stable/promise.js";',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'import _Promise from "@babel/runtime-corejs3/core-js-stable/promise.js";'
+  );
+});
+
 tests.add('Import from Babel runtime regenerator, no extension.', () => {
   strictEqual(
     babel.transform(
@@ -146,6 +166,26 @@ tests.add('Require from Babel runtime, with extension.', () => {
       { plugins: [babelPluginTransformRuntimeFileExtensions] }
     ).code,
     'require("@babel/runtime/helpers/objectWithoutPropertiesLoose.js");'
+  );
+});
+
+tests.add('Require from Babel runtime core-js, no extension.', () => {
+  strictEqual(
+    babel.transform(
+      'require("@babel/runtime-corejs3/core-js-stable/promise");',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'require("@babel/runtime-corejs3/core-js-stable/promise.js");'
+  );
+});
+
+tests.add('Require from Babel runtime core-js, with extension.', () => {
+  strictEqual(
+    babel.transform(
+      'require("@babel/runtime-corejs3/core-js-stable/promise.js");',
+      { plugins: [babelPluginTransformRuntimeFileExtensions] }
+    ).code,
+    'require("@babel/runtime-corejs3/core-js-stable/promise.js");'
   );
 });
 

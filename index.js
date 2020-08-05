@@ -7,11 +7,15 @@
  */
 function fixBabelRuntimeSpecifier(specifier) {
   if (
-    specifier.value.startsWith('@babel/runtime/helpers/') &&
+    specifier.value.match(
+      /^@babel\/runtime(-corejs[23])?\/(core-js(-stable)?|helpers)\//
+    ) &&
     !specifier.value.endsWith('.js')
   )
     specifier.value = `${specifier.value}.js`;
-  else if (specifier.value === '@babel/runtime/regenerator')
+  else if (
+    specifier.value.match(/^@babel\/runtime(-corejs[23])?\/regenerator$/)
+  )
     specifier.value = `${specifier.value}/index.js`;
 }
 
